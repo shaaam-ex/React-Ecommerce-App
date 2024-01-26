@@ -1,0 +1,40 @@
+.container {
+    height: 80vh;
+}
+
+.container > h2 {
+    text-align: center;
+    margin-left: 10.7vmax;
+}
+
+.main-container {
+    display: flex;
+}
+
+.left-div {
+    text-align: center;
+}
+
+.main-products-container {
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.left-div {
+    width: 15vmax;
+}
+
+.first-div-options-price-filter {
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    gap: 1vmax;
+}
+
+.first-div-options-price-filter > input {
+    width: 5vmax;
+    height: 2.5vh;
+}

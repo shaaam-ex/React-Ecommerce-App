@@ -1,0 +1,26 @@
+.container-header-main {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.left-container-header > img {
+    max-width: 12vmax; 
+}
+
+.clickable-link {
+    display: inline-block;
+    margin: 2vmax;
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.8);
+    transition: 0.42s all;
+    padding: 1vmax;
+}
+
+.clickable-link:hover {
+    color: rgba(255, 0, 0, 0.7);
+}
+
+.icon-buttons-header {
+    font-size: 1.5vmax;
+}
