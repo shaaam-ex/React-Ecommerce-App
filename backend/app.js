@@ -1,20 +1,28 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const errorMiddleware = require('./middleware/error');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
 
-const userRoute = require('./routes/UserRoutes');
-const productRoute = require('./routes/ProductRoutes');
 
-let app = express();
+const app = express();
 app.use(express.json());
-
-// app.use(bodyParser);
-
-app.use(cors());
 app.use(cookieParser());
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(fileUpload());
 
-app.use('/api/v1', userRoute);
-app.use('/api/v1', productRoute);
+// Route Imports
+const product = require('./routes/productRoute');
+const user = require('./routes/userRoute');
+const order = require('./routes/orderRoute');
 
-module.exports = app;
+app.use('/api/v1', product);
+app.use('/api/v1', user);
+app.use('/api/v1', order);
+
+// Middleware for Error
+app.use(errorMiddleware);
+
+module.exports = app

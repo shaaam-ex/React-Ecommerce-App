@@ -10,8 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@material-ui/icons": "^4.11.3",
+    "LockOpen": "link:@material-ui/icons/LockOpen",
     "axios": "^1.6.5",
     "react": "^18.2.0",
+    "react-alert": "^7.0.3",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
     "react-redux": "^9.1.0",

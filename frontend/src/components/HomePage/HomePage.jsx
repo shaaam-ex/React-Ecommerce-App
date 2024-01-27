@@ -3,44 +3,40 @@ import { Link, useParams } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { getProduct } from '../../actions/productAction';
+import { getProduct, clearErrors } from '../../actions/productAction';
+import axios from 'axios';
 
 
 const HomePage = () => {
+    const [ isLoading, setLoading ] = useState(true);
 
     useEffect(() => {
         document.getElementById('container-header-main').style.visibility ='visible';
     }, [])
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch(); // to send data
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [price, setPrice] = useState([0, 25000]);
-    const [category, setCategory] = useState('Women');
+    const [products, setProducts] = useState([]);
 
-    const [ratings, setRatings] = useState(0);
-
-    const setCurrentPageNo = (e) => {
-        setCurrentPage(e);
+    const getData = async() => {
+        const temp = await axios.get(`http://localhost:4000/api/v1/product?keyword=&page=1&price[gte]=0&price[lte]=25000&ratings[gte]=0&category=Women`);
+        setProducts(temp.data['products'])
+        console.log(products)
     }
 
-    const priceHandler = (event, newPrice) => {
-        setPrice(newPrice);
-    } 
-
-    const { products, loading, error, productsCount, resultPerPage } = useSelector(state => state.products);
-
-    const keyword = useParams();
-
     useEffect(() => {
-        dispatch(getProduct(keyword, currentPage, price, category, ratings))
-    }, [dispatch, keyword, currentPage, price, category, ratings, productsCount]);
+        setLoading(true);
+        getData();
+        setLoading(false);
+    }, [])
 
 
 
 
     return (
-        <>
+        isLoading?(<h1>Loading</h1>)
+        :(
+            <>
             <div className="main-container-home">
                 <section className="main-banner-home">
                     <img src="https://raw.githubusercontent.com/NOTAHTI123/react-app-ecommerce-5th-sem/main/ecommerce-app-main/src/assets/images/main-woman-banner.jpg" alt="" />
@@ -51,11 +47,13 @@ const HomePage = () => {
                     <div className='products-main-container'>
                         {
                             products.map(product => (
-                                <div key={product._id} className="product-card">
-                                    <img src={product.images[0].url} alt="" />
-                                    <h3>{product.name}</h3>
-                                    <p>Price: {product.price}rs</p>
-                                </div>
+                                <Link style={{textDecoration: 'none', color: 'black'}} to={`/products/${product._id}`} key={product._id}>
+                                    <div key={product._id} className="product-card">
+                                        <img src={product.images[0].url} alt="" />
+                                        <h3>{product.name}</h3>
+                                        <p>Price: {product.price}rs</p>
+                                    </div>
+                                </Link>
                             ))
                         }
                     </div>
@@ -63,6 +61,7 @@ const HomePage = () => {
                 </section>
             </div>
         </>
+        )
     )
 }
 

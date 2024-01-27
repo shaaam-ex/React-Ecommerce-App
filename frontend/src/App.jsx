@@ -7,8 +7,20 @@ import { useEffect } from 'react';
 import Women from './components/Products/Women.jsx';
 import Men from './components/Products/Men.jsx';
 import ProductDetails from './components/Products/ProductDetails.jsx';
+import { useDispatch, useSelector } from 'react-redux';
+import store from './store.js';
+import { loadUser } from './actions/userAction.js';
+import LoginSignup from './components/User/LoginSignup.jsx';
+import Profile from './components/User/Profile.jsx';
 
 function App() {
+
+  const { isAuthenticated, user } = useSelector(state => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadUser());
+  }, [dispatch])
 
   return (
     <Router>
@@ -19,6 +31,8 @@ function App() {
         <Route exact path='/products/women' element={<Women />} />
         <Route exact path='/products/men' element={<Men />} />
         <Route exact path='/products/:id' element={<ProductDetails />} />
+        <Route exact path='/login' element={<LoginSignup />} />
+        <Route exact path='/account' element={<Profile />} />
       </Routes>
     </Router>
   )

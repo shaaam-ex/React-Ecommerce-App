@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
+const crypto = require('crypto'); 
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -45,27 +45,28 @@ const userSchema = new mongoose.Schema({
     resetPasswordExpire: Date
 });
 
-
-userSchema.pre('save', async function(next) {
-    if(!this.isModified('password')) {
+userSchema.pre("save", async function(next){ // event
+    if(!this.isModified("password")) {
         next();
     }
     this.password = await bcrypt.hash(this.password, 10)
 })
 
-userSchema.methods.getJWTToken = function() {
-    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+// JWT Token // To generate and store token in cookie
+userSchema.methods.getJWTToken = function () {
+    return jwt.sign({id: this._id}, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRE
-    })
+    }) // making token
 }
 
+// Generate Password Reset Token
 userSchema.methods.getResetPasswordToken = function () {
     // Generating Token
-    const resetToken = crypto.randomBytes(20).toString('hex');
+    const resetToken = crypto.randomBytes(20).toString('hex'); // of 20 bytes, hex to convert garbage to string
     const tokenCrypto = crypto
     .createHash('sha256')
     .update(resetToken)
-    .digest('hex')
+    .digest('hex');
 
 
     // Hashing and adding to userSchema
@@ -75,8 +76,9 @@ userSchema.methods.getResetPasswordToken = function () {
     return resetToken;
 }
 
-userSchema.methods.comparePassword = async function(enteredPassword) {
-    return await bcrypt.compare(enteredPassword, this.password);
+// Compare Password
+userSchema.methods.comparePassword = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password); // this.password is the hashed one
 }
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('User', userSchema);
