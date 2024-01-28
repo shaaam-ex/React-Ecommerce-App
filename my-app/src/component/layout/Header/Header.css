@@ -36,3 +36,16 @@
     height: 56px;
     border-radius: 100%;
 }
+
+.cart-item-count {
+    background-color: tomato;
+    font-size: 1vmax;
+    color: white;
+    border-radius: 50%;
+    padding: 0.2vmax;
+    width: 1vmax;
+    height: 1vmax;
+    display: inline-block;
+    text-align: center;
+    line-height: 1vmax;
+}

@@ -8,8 +8,12 @@ import Carousel from 'react-material-ui-carousel';
 import ReactStars from 'react-rating-stars-component';
 import MetaData from '../layout/MetaData';
 import { clearErrors } from '../../actions/productAction';
+import { addItemsToCart } from '../../actions/cartAction';
+import { useAlert } from 'react-alert';
+import ReviewCard from './ReviewCard.js';
 
 const ProductDetails = () => {
+    const alert = useAlert();
     const dispatch = useDispatch();
     const [tempLoad, setTempLoad] = useState(true);
 
@@ -43,11 +47,18 @@ const ProductDetails = () => {
         quantity > 1 ? setQuantity(quantity-1) : setQuantity(1)
     }
     
+    const addToCartHandler = (e) => {
+        e.preventDefault();
+        dispatch(addItemsToCart(id, quantity));
+        alert.success("Item Added To Cart Successfully")
+    }
+
     return (
         loading ? (<h1>Loading</h1>) : (
             <>
                 {product ? (
-                    <div className='product-details'>
+                    <>
+                        <div className='product-details'>
                         <MetaData title={`${product.name}`} />
                         <div className="image-container-product-details">
                             <Carousel>
@@ -83,9 +94,25 @@ const ProductDetails = () => {
                                     : (<div>Status: <span style={{color: 'red', fontWeight: 'bold'}}>Out of Stock</span></div>)
                                 }
                             </div>
-                            <Link className='add-to-cart-button-product-details'>Add to Cart</Link>
-                        </div>
+                            <Link onClick={addToCartHandler} className='add-to-cart-button-product-details'>Add to Cart</Link>
+                        </div>  
                     </div>
+                    <h3 className='reviewsHeading'>Reviews</h3>
+
+                    {
+                        product.reviews && product.reviews[0] 
+                        ?(
+                        <div className='reviews'>
+                            {
+                            product.reviews &&
+                            product.reviews.map((review) => <ReviewCard review={review} />)
+                            }
+                        </div>
+                        ): (
+                            <p className='noReviews'>No Reviews Yet</p>
+                        )
+                    }
+                    </>
                 ) : (
                     <p>Product not found</p>
                 )}

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
 import './LoginSignup.css'
 import Loader from '../layout/Loader/Loader';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, redirect, useNavigate, useLocation } from 'react-router-dom';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import FaceIcon from '@material-ui/icons/Face';
@@ -14,6 +14,7 @@ import { useAlert } from 'react-alert';
 const LoginSignup = () => {
 
     const dispatch = useDispatch();
+    const location = useLocation();
 
     const alert = useAlert();
 
@@ -82,6 +83,8 @@ const LoginSignup = () => {
     }
 
     const navigate = useNavigate();
+    // Now, I will check redirect, from cart
+    const redirect = location.search?location.search.split('=')[1]:'/account'
 
     useEffect(() => {
         if(error) {
@@ -90,9 +93,9 @@ const LoginSignup = () => {
         }
 
         if(isAuthenticated) {
-            navigate('/account');
+            navigate(`/${redirect}`);
         }
-    }, [dispatch, error, alert, isAuthenticated, navigate])
+    }, [dispatch, error, alert, isAuthenticated, navigate, redirect])
 
     const switchTabs = (e, tab) => {
         if(tab === 'login') {

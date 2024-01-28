@@ -20,6 +20,9 @@ import UserOptions from './component/layout/Header/UserOptions.js';
 import UpdatePassword from './component/User/UpdatePassword.js';
 import ForgotPassword from './component/User/ForgotPassword.js';
 import ResetPassword from './component/User/ResetPasswrod.js';
+import Cart from './component/Cart/Cart';
+import Shipping from './component/Cart/Shipping';
+import ConfirmOrder from './component/Cart/ConfirmOrder.js';
 
 function App() {
 
@@ -39,7 +42,7 @@ function App() {
   return (
     <Router>
 
-      <Header />
+      <Header isAuthenticated={isAuthenticated} />
 
       {isAuthenticated && <UserOptions user={user} />}
 
@@ -53,9 +56,12 @@ function App() {
           <Route exact path='/account' element={<Profile />} />
 
           <Route path='/login' element={<LoginSignup />} />
+          <Route path='/cart' element={<Cart />} />
 
           <Route exact path='/products/women' element={<Women />} />
           <Route exact path='/products/men' element={<Men />} />
+          <Route exact path='/shipping' element={<Shipping />} />
+          <Route exact path='/order/confirm' element={<ConfirmOrder />} />
 
           <Route exact path='/me/update' element={<UpdateProfile />} />
           <Route exact path='/password/update' element={<UpdatePassword />} />
