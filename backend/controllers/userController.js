@@ -170,7 +170,6 @@ exports.getAllUser = catchAsyncErrors(async (req, res, next) => {
 // Get User Details
 exports.getUserDetails = catchAsyncErrors(async(req, res, next) => {
     const user = await User.findById(req.user.id);
-    console.log("api/v1/me")
 
     res.status(200).json({
         success: true,

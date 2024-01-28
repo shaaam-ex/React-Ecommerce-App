@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { getProduct } from '../../actions/productAction';
 import { Link } from 'react-router-dom';
 import ReactStars from 'react-rating-stars-component';
+import Loader from '../layout/Loader/Loader';
 
 const Women = () => {
 
@@ -46,7 +47,10 @@ const Women = () => {
     const { products, loading, error, productsCount, resultPerPage } = useSelector(state => state.products);
 
     return (
-        <div className='container'>
+        loading ? (<Loader />)
+        :
+        (
+            <div className='container'>
             <h2>Women Clothing</h2>
             <div className="main-container">
                 <div className="left-div">
@@ -77,6 +81,7 @@ const Women = () => {
                 </div>
             </div>
         </div>
+        )
     )
 }
 

@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { getProduct, clearErrors } from '../../actions/productAction';
 import axios from 'axios';
 import ReactStars from 'react-rating-stars-component';
+import Loader from '../layout/Loader/Loader';
 
 
 const HomePage = () => {
@@ -20,22 +21,21 @@ const HomePage = () => {
     const [products, setProducts] = useState([]);
 
     const getData = async() => {
+        setLoading(true);
         const temp = await axios.get(`http://localhost:4000/api/v1/product?keyword=&page=1&price[gte]=0&price[lte]=25000&ratings[gte]=0&category=Women`);
         setProducts(temp.data['products'])
-        console.log(products)
+        setLoading(false);
     }
 
     useEffect(() => {
-        setLoading(true);
         getData();
-        setLoading(false);
     }, [])
 
 
 
 
     return (
-        isLoading?(<h1>Loading</h1>)
+        isLoading?(<Loader />)
         :(
             <>
             <div className="main-container-home">
